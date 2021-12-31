@@ -10,16 +10,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center;    
     justify-content: center;
 }
 
 .createUserFormItem {
     margin: 12px 0;
-    width: 40%;
+    width: 35%;
 }
 
-@media only screen and (max-width: 915px) {
+@media only screen and (max-width: 1215px) {
     .createUserFormItem {
         width: unset;
         max-width: min-content;
@@ -44,6 +44,7 @@
 }
 
 .userInput {
+    margin: 12px;
     animation: inputAnimation 2s forwards;
     padding-bottom: 0px;
     border: none;
