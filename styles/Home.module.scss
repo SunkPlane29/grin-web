@@ -1,6 +1,7 @@
 @use 'consts';
 
 .navButton {
+    font-family: var(--font-family);
     border: 0px;
     padding: 16px;
 }

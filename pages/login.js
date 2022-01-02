@@ -1,15 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { SetCookie } from "../util/cookie";
 
 export default function Login() {
-    const { user, isLoading } = useAuth0();
+    const { user } = useAuth0();
     const [ redirectURI, setRedirectURI ] = useState("http://localhost:3000/");
+    const router = useRouter();
 
     useEffect(() => {
-        if (isLoading) {
-            return <div>Loading ...</div> ;
-        }
-
         const baseURL = "http://localhost:8080/api/user-exists";
         const id = user?.sub.split('|')[1];
         
@@ -21,16 +20,20 @@ export default function Login() {
             // do something
             return <div>Id is invalid ...</div> 
         }
+
+        SetCookie("wasLogged", true, 7);
     
         fetch(`${baseURL}?id=${id}`, {method: 'GET'}).then((resp) => {
             if (resp.status === 302) {
-                const URI = "http://localhost:3000/"
-                setRedirectURI(URI);
-                window?.location.replace(URI); //TODO: hardcoded
+                console.log(user);
+                const href = "http://localhost:3000/"
+                setRedirectURI(href);
+                router.push(href);                
             } else if (resp.status === 404) {
-                const URI = "http://localhost:3000/create-user"
-                setRedirectURI(URI);
-                window?.location.replace(URI); //TODO: hardcoded
+                console.log(user);
+                const href = "http://localhost:3000/create-user"
+                setRedirectURI(href);
+                router.push(href);
             }
         }).catch((err) => {
             console.log(err);
@@ -40,7 +43,6 @@ export default function Login() {
     return (
         <div>
             <a href={redirectURI}>If redirection fails click this link</a>
-            <p>{user?.sub.split("|")[1]}</p> 
         </div>
     );
 }

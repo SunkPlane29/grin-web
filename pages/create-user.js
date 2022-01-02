@@ -1,32 +1,38 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles/CreateUser.module.scss";
 import CreateUserInput from "../components/createUserInput";
+import { useRouter } from "next/router";
 
 export default function CreateUser() {
-    const { getAccessTokenWithPopup } = useAuth0();
+    const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenWithPopup } = useAuth0();
     const [username, setUsername] = useState("");
     const [alias, setAlias] = useState("");
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!isAuthenticated && !isLoading) {
+            loginWithRedirect();
+        }
+    }, [isLoading]);
 
     const handlePost = async (event) => {
         event.preventDefault();
-        
-        const token = await getAccessTokenWithPopup({
-            audience: "https://afda.herokuapp.com",
-        });
 
-        fetch("http://localhost:8080/api/users", 
-            {method: "POST", headers: {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}, body: JSON.stringify({username: username, alias: alias})}
-        ).then((resp) => {
-            if (resp.status == 201) {
-                window?.location.replace("http://localhost:3000/");
-            }
-            else {
-                resp.text().then((text) => {
-                    console.log(text);
-                });
-            }    
-        });
+        getAccessTokenWithPopup({audience: "https://afda.herokuapp.com"}).then((token) => {
+            fetch("http://localhost:8080/api/users", 
+                {method: "POST", headers: {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}, body: JSON.stringify({username: username, alias: alias})}
+            ).then((resp) => {
+                if (resp.status == 201) {
+                    router.push("http://localhost:3000/");
+                }
+                else {
+                    resp.text().then((text) => {
+                        console.log(text);
+                    });
+                }    
+            });
+        }).catch((err) => {console.log(err)});
     };
 
     return (
