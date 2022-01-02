@@ -18,11 +18,12 @@ async function requestPosts(id) {
         method: "GET", headers: {"Content-Type": "application/json"},
     }).then((resp) => resp.json())
         .then((data) => {
-            postData = data
+            postData = data;
         })
         .catch((err) => {
             console.log(err);
-        });
+        }
+    );
 
     return postData
 }

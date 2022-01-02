@@ -40,10 +40,14 @@
 }
 
 @keyframes hoverButton {
-    from {background-color: theme.$background-color; padding: none;}
-    to {background-color: theme.$light-color; padding: 16px;}
+    from {background-color: theme.$background-color; padding: none; box-shadow: none;}
+    to {background-color: theme.$light-color; padding: 16px; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.3)}
 }
 
 .createUserFormInputButton input[type="submit"]:hover {
     animation: hoverButton 500ms forwards;
+}
+
+.createUserFormInputButton input[type="submit"]:focus-visible {
+    outline: none;
 }

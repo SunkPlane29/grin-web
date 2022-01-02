@@ -18,6 +18,7 @@
 
 .grinNavItemContainer {
     margin: 8px 0;
+    padding: 12px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -25,14 +26,26 @@
 }
 
 @keyframes hoverItem {
-    from {background-color: theme.$background-color; padding: none;}
-    to {background-color: theme.$light-color;}
+    from {
+        box-shadow: none;
+        font-size: 1rem;
+    }
+    to {
+        box-shadow: 0 0 1em .2em rgba(0, 0, 0, 0.3);
+        font-size: 1.01rem;
+    }
 }
 
 .grinNavItem {
     margin: 0 12px;
+    background-color: theme.$background-color;
+    box-shadow: none;
 }
 
 .grinNavItem:hover {
     animation: hoverItem 500ms forwards;
+}
+
+.grinNavItem:focus-visible {
+    outline: none;
 }
