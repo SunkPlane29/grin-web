@@ -1,0 +1,11 @@
+@use 'consts';
+
+.navButton {
+    border: 0px;
+    padding: 16px;
+}
+
+.content {
+    position: relative;
+    top: consts.$maxNavHeight;
+}

@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
-import styles from "../styles/CreateUser.module.css";
+import styles from "../styles/CreateUser.module.scss";
+import CreateUserInput from "../components/createUserInput";
 
-//TODO: abstract into components
 export default function CreateUser() {
     const { getAccessTokenWithPopup } = useAuth0();
     const [username, setUsername] = useState("");
@@ -33,16 +33,10 @@ export default function CreateUser() {
         <div className={styles.createUserFormContainer}>
             <form className={styles.createUserForm} onSubmit={(e) => handlePost(e)}>
                 <div className={styles.createUserFormItem}>
-                    <div className={styles.createUserFormItemContainer}>
-                        <label htmlFor="username-input" className={styles.inputLabel}>Input username:</label>
-                        <input type="text" id="username-input" className={styles.userInput} value={username} onChange={(e) => setUsername(e.target.value)}/>
-                    </div>
+                    <CreateUserInput onChange={(e) => setUsername(e.target.value)} label="Username:" />
                 </div>
                 <div className={styles.createUserFormItem}>
-                    <div className={styles.createUserFormItemContainer}>
-                        <label htmlFor="alias-input" className={styles.inputLabel}>Input alias:</label>
-                        <input type="text" id="alias-input" className={styles.userInput} value={alias} onChange={(e) => setAlias(e.target.value)} />
-                    </div>
+                    <CreateUserInput onChange={(e) => setAlias(e.target.value)} label="Alias:" />
                 </div>
                 <div className={styles.createUserFormInputButton}>
                     <input type="submit" value="Create User" />

@@ -1,3 +1,5 @@
+@use 'theme';
+
 .createUserFormContainer {
     position: absolute;
     height: 100%;
@@ -26,36 +28,6 @@
     }
 }
 
-.createUserFormItemContainer {
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
-    flex-flow: row wrap;
-}
-
-.inputLabel {
-    margin: 4px 16px;
-    float: left;
-}
-
-@keyframes inputAnimation {
-    from {background-color: #ddd; border-bottom: none;}
-    to {background-color: #f2f2f2; border-bottom: 1px solid #081826;}
-}
-
-.userInput {
-    margin: 12px;
-    animation: inputAnimation 2s forwards;
-    padding-bottom: 0px;
-    border: none;
-    background-color: #ddd;
-    font-family: var(--font-family-1);
-}
-
-.userInput:focus-visible {
-    outline: none;
-}
-
 .createUserFormInputButton {
     margin: 32px 0;
     align-self: center;
@@ -64,12 +36,12 @@
 
 .createUserFormInputButton input[type="submit"] {
     border: none;
-    background-color: #f2f2f2;
+    background-color: theme.$background-color;
 }
 
 @keyframes hoverButton {
-    from {background-color: #f2f2f2; padding: none;}
-    to {background-color: #ddd; padding: 16px;}
+    from {background-color: theme.$background-color; padding: none;}
+    to {background-color: theme.$light-color; padding: 16px;}
 }
 
 .createUserFormInputButton input[type="submit"]:hover {

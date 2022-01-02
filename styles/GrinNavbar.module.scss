@@ -1,0 +1,38 @@
+@use 'theme';
+@use 'consts';
+
+.grinNav {
+    position: fixed;
+    margin: none;
+    width: 100vw;
+    max-height: consts.$maxNavHeight;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: theme.$background-color;
+}
+
+.grinNavContainer {
+    width: 80%;
+}
+
+.grinNavItemContainer {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+@keyframes hoverItem {
+    from {background-color: theme.$background-color; padding: none;}
+    to {background-color: theme.$light-color;}
+}
+
+.grinNavItem {
+    margin: 0 12px;
+}
+
+.grinNavItem:hover {
+    animation: hoverItem 500ms forwards;
+}
