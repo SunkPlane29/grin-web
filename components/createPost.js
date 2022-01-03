@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import style from "../styles/CreatePost.module.scss";
-
-const expandUpIcon = <span><Image src="/expand-up.svg" className={style.expandIcon} height={42} width={42} /></span>;
-const expandDownIcon = <span><Image src="/expand-down.svg" className={style.expandIcon} height={42} width={42} /></span>;
+import ExpandUpIcon from "../public/expand-up.svg";
+import ExpandDownIcon from "../public/expand-down.svg";
 
 function CreatePostInput(props) {
     if (props.visible) {
@@ -13,15 +12,18 @@ function CreatePostInput(props) {
                     className={props.className} 
                     onChange={props.onChange} 
                     value={props.value} 
-                />
+                    />
             </div>
         );
     }
-
+    
     return <></>;
 }
 
 export default function CreatePostForm() {
+    const expandUpIcon = <ExpandUpIcon className={style.expandIcon} height={42} width={42} />;
+    const expandDownIcon = <ExpandDownIcon className={style.expandIcon} height={42} width={42} />;
+
     const [visible, setVisible] = useState(false);
     const [icon, setIcon] = useState(expandUpIcon);
 
