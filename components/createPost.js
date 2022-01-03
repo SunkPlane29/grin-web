@@ -9,7 +9,7 @@ function CreatePostInput(props) {
         return (
             <div className={style.createPostInputContainer}>
                 <textarea 
-                    className={props.className} 
+                    className={style.createPostInput} 
                     onChange={props.onChange} 
                     value={props.value} 
                     />
@@ -48,7 +48,7 @@ export default function CreatePostForm() {
                     <button className={style.iconButton} onClick={changeFormVisibility}>{icon}</button>
                 </div>
                 <div>
-                    <CreatePostInput visible={visible} value={postContent} onChange={(e) => setPostContent(e.target.value)} className={style.createPostInput} />
+                    <CreatePostInput visible={visible} value={postContent} onChange={(e) => setPostContent(e.target.value)} />
                 </div>
             </div>
         </div>
