@@ -36,16 +36,17 @@
 
 .createUserFormInputButton input[type="submit"] {
     border: none;
+    padding: 16px;
     background-color: theme.$background-color;
 }
 
 @keyframes hoverButton {
-    from {background-color: theme.$background-color; padding: none; box-shadow: none;}
-    to {background-color: theme.$light-color; padding: 16px; box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.3)}
+    from {box-shadow: none;}
+    to {box-shadow: 0 0 1em .2em rgba(0, 0, 0, 0.3)}
 }
 
 .createUserFormInputButton input[type="submit"]:hover {
-    animation: hoverButton 500ms forwards;
+    animation: hoverButton 100ms forwards;
 }
 
 .createUserFormInputButton input[type="submit"]:focus-visible {

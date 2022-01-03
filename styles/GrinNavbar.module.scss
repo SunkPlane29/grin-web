@@ -28,11 +28,9 @@
 @keyframes hoverItem {
     from {
         box-shadow: none;
-        font-size: 1rem;
     }
     to {
         box-shadow: 0 0 1em .2em rgba(0, 0, 0, 0.3);
-        font-size: 1.01rem;
     }
 }
 
@@ -43,7 +41,7 @@
 }
 
 .grinNavItem:hover {
-    animation: hoverItem 500ms forwards;
+    animation: hoverItem 100ms forwards;
 }
 
 .grinNavItem:focus-visible {

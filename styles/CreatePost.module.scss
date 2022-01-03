@@ -1,0 +1,53 @@
+@use 'theme';
+
+.expandIcon {
+    filter: invert(87%) sepia(1%) saturate(667%) hue-rotate(165deg) brightness(89%) contrast(87%);
+}
+
+.iconButton {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.createPostForm {
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.createPostFormContainer {
+    background-color: #f2f2f2;
+    width: 60%;
+}
+
+@media only screen and (max-width: 500px) {
+    .createPostFormContainer {
+        width: inherit;
+    }
+}
+
+.changeFormVisibilityBar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.createPostInput {
+    outline: none;
+    resize: none;
+    border: none;
+    width: 100%;
+    height: 20vh;
+    padding: 12px;
+}
+
+.createPostInputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 1em .2em rgba(0, 0, 0, 0.1);
+}

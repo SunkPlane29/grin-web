@@ -1,13 +1,23 @@
+import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
 async function getSubPosts(sub) {
-    const subPosts = sub.map(async (id, i) => {
+    let postData = [];
+
+    sub.map(async (id, i) => {
         const posts = await requestPosts(id);
-        console.log(posts)
-    })
+        postData = postData.concat(posts);
+    });
+
+    console.log(postData);
 
     return (
-        <></>
+        <>
+            {postData && postData.map((post) => {
+                return <p key={post.id}>{post.content}</p>
+            })}
+        </>
     );
 }
 
@@ -28,11 +38,19 @@ async function requestPosts(id) {
     return postData
 }
 
-export default function Posts(props) {
-    const subscribbed = props.sub;
-    const posts = getSubPosts(props.sub);
+export default function Posts() {
+    const [posts, setPosts] = useState(<></>);
+    const { isAuthenticated, isLoading, user } = useAuth0();
+
+    useEffect(() => {
+        if (isAuthenticated && !isLoading) {
+            getSubPosts([user?.sub.split('|')[1]]).then((postData) => {
+                setPosts(postData);
+            });
+        }
+    }, [isLoading]);
 
     return (
-        <div></div>
+        <div>{posts}</div>
     );
 }
