@@ -1,38 +1,34 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/CreateUser.module.scss";
 import CreateUserInput from "../components/createUserInput";
 import { useRouter } from "next/router";
+import { SetCookie } from "../util/cookie";
 
 export default function CreateUser() {
-    const { isAuthenticated, isLoading, loginWithRedirect, getAccessTokenWithPopup } = useAuth0();
     const [username, setUsername] = useState("");
     const [alias, setAlias] = useState("");
     const router = useRouter();
 
-    useEffect(() => {
-        if (!isAuthenticated && !isLoading) {
-            loginWithRedirect();
-        }
-    }, [isLoading]);
-
     const handlePost = async (event) => {
         event.preventDefault();
 
-        getAccessTokenWithPopup({audience: "https://afda.herokuapp.com"}).then((token) => {
-            fetch("http://localhost:8080/api/users", 
-                {method: "POST", headers: {"Authorization": `Bearer ${token}`, "Content-Type": "application/json"}, body: JSON.stringify({username: username, alias: alias})}
-            ).then((resp) => {
-                if (resp.status == 201) {
-                    router.push("http://localhost:3000/");
-                }
-                else {
-                    resp.text().then((text) => {
-                        console.log(text);
-                    });
-                }    
-            });
-        }).catch((err) => {console.log(err)});
+        fetch("http://localhost:8080/api/users", 
+            {method: "POST", body: JSON.stringify({username: username, alias: alias})}
+        ).then((resp) => {
+            if (resp.status == 201) {
+                router.push("http://localhost:3000/");
+                resp.json().then((data) => {
+                    SetCookie("id", data.id, 7);
+                });
+            }
+            else {
+                resp.text().then((text) => {
+                    console.log(text);
+                });
+            }   
+        }).catch((err) => {
+            console.log(err);
+        });
     };
 
     return (

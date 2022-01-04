@@ -3,26 +3,17 @@ import Posts from "../components/posts";
 import { LoginButton, LogoutButton, ChangeStateButton } from "../components/stateButtons";
 import style from '../styles/Home.module.scss';
 import navStyle from "../styles/GrinNavbar.module.scss";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
-import { GetCookie, SetCookie } from '../util/cookie';
 import CreatePostForm from "../components/createPost";
+import { useEffect, useState } from "react";
+
+//FIXME: css stylesheets are repetitive, like i could make a global container class and stuff
 
 export default function Home() {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
-    
+  const [updateCount, setUpdateCount] = useState(0);
+
   useEffect(() => {
-    const wasLogged = GetCookie("wasLogged");
-    
-    if (!isAuthenticated && !isLoading) {
-      if (wasLogged === "") {
-        SetCookie("wasLogged", false, 7);
-      } else if (wasLogged === "true") {
-        SetCookie("wasLogged", true, 7);
-        loginWithRedirect();
-      }
-    }
-  }, [isLoading]); //there may be some way to abstract this
+    console.log(updateCount);
+  }, [updateCount]);
 
   return (
     <div>
@@ -33,9 +24,9 @@ export default function Home() {
         <ChangeStateButton className={`${navStyle.grinNavItem} ${style.navButton}`} loginContent={"Login"} logoutContent={"Logout"} />
       </GrinNavbar>
       <div className={style.content}>
-        <Posts />
+        <Posts updateCount={updateCount} />
       </div>
-      <CreatePostForm />
+      <CreatePostForm updateCounter={() => setUpdateCount(updateCount+1)} />
     </div>
   );
 }

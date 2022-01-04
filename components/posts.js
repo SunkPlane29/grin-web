@@ -1,25 +1,6 @@
 import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
-
-async function getSubPosts(sub) {
-    let postData = [];
-
-    sub.map(async (id, i) => {
-        const posts = await requestPosts(id);
-        postData = postData.concat(posts);
-    });
-
-    console.log(postData);
-
-    return (
-        <>
-            {postData && postData.map((post) => {
-                return <p key={post.id}>{post.content}</p>
-            })}
-        </>
-    );
-}
+import { GetCookie } from "../util/cookie";
+import style from "../styles/Home.module.scss";
 
 async function requestPosts(id) {
     let postData;
@@ -29,6 +10,7 @@ async function requestPosts(id) {
     }).then((resp) => resp.json())
         .then((data) => {
             postData = data;
+            console.log(postData);
         })
         .catch((err) => {
             console.log(err);
@@ -38,19 +20,33 @@ async function requestPosts(id) {
     return postData
 }
 
-export default function Posts() {
+//FIXME: need to sort the posts data in the server
+export default function Posts(props) {
     const [posts, setPosts] = useState(<></>);
-    const { isAuthenticated, isLoading, user } = useAuth0();
 
     useEffect(() => {
-        if (isAuthenticated && !isLoading) {
-            getSubPosts([user?.sub.split('|')[1]]).then((postData) => {
-                setPosts(postData);
-            });
+        console.log("fetching posts");
+
+        const id = GetCookie("id");
+        if (id === "") {
+            console.log("id cookie not found, login may be required");
+            return;
         }
-    }, [isLoading]);
+
+        requestPosts(id).then((postData) => {
+            setPosts(postData.map((post) => {
+                return <p key={post.id}>{post.content}</p>;
+            }));
+        });
+    }, [props.updateCount]);
 
     return (
-        <div>{posts}</div>
+        <div className={style.posts}>
+            <div className={style.postsContainer}>
+                <div>
+                    {posts}
+                </div>
+            </div>
+        </div>
     );
 }
