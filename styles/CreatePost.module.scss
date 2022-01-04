@@ -1,5 +1,10 @@
 @use 'theme';
 
+@keyframes show {
+    0% {position: relative; top: 20vh}
+    100% {position: relative; top: 0;}
+}
+
 .expandIcon {
     filter: invert(87%) sepia(1%) saturate(667%) hue-rotate(165deg) brightness(89%) contrast(87%);
 }
@@ -7,6 +12,10 @@
 .iconButton {
     border: none;
     background-color: rgba(0, 0, 0, 0);
+}
+
+.iconButtonDown {
+    animation: show 300ms ease-in forwards;
 }
 
 .createPostForm {
@@ -23,7 +32,7 @@
     width: 60%;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
     .createPostFormContainer {
         width: inherit;
     }
@@ -36,17 +45,13 @@
 }
 
 .createPostInput {
+    font-size: 1.05rem;
     outline: none;
     resize: none;
     border: none;
     width: 100%;
     height: 20vh;
     padding: 12px;
-}
-
-@keyframes show {
-    0% {position: relative; top: 20vh}
-    100% {position: relative; top: 0;}
 }
 
 .createPostInputContainer {

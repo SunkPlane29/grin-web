@@ -20,20 +20,28 @@ function CreatePostInput(props) {
     return <></>;
 }
 
+function ChangeFormVisibilityButton(props) {
+    if (props.visible) {
+        return <button className={props.className} onClick={props.onClick}>{props.children}</button>;
+    }
+
+    return <></>;
+}
+
 export default function CreatePostForm() {
     const expandUpIcon = <ExpandUpIcon className={style.expandIcon} height={42} width={42} />;
     const expandDownIcon = <ExpandDownIcon className={style.expandIcon} height={42} width={42} />;
 
     const [visible, setVisible] = useState(false);
-    const [icon, setIcon] = useState(expandUpIcon);
+    // const [icon, setIcon] = useState(expandUpIcon);
 
-    useEffect(() => {
-        if (visible) {
-            setIcon(expandDownIcon);
-        } else {
-            setIcon(expandUpIcon);
-        }
-    }, [visible]);
+    // useEffect(() => {
+    //     if (visible) {
+    //         setIcon(expandDownIcon);
+    //     } else {
+    //         setIcon(expandUpIcon);
+    //     }
+    // }, [visible]);
 
     const changeFormVisibility = () => {
         setVisible(!visible);
@@ -45,7 +53,9 @@ export default function CreatePostForm() {
         <div className={style.createPostForm}>
             <div className={style.createPostFormContainer}>    
                 <div className={style.changeFormVisibilityBar}>
-                    <button className={style.iconButton} onClick={changeFormVisibility}>{icon}</button>
+                    <ChangeFormVisibilityButton className={style.iconButton} onClick={changeFormVisibility} visible={!visible}>{expandUpIcon}</ChangeFormVisibilityButton>
+                    <ChangeFormVisibilityButton className={`${style.iconButton} ${style.iconButtonDown}`} onClick={changeFormVisibility} visible={visible}>{expandDownIcon}</ChangeFormVisibilityButton>
+                    {/* <button className={style.iconButton} onClick={changeFormVisibility}>{icon}</button> */}
                 </div>
                 <div>
                     <CreatePostInput visible={visible} value={postContent} onChange={(e) => setPostContent(e.target.value)} />
