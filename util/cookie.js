@@ -1,6 +1,11 @@
 export function SetCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    
+    if (cvalue === null) {
+        d.setTime(0);
+    }
+
     let expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

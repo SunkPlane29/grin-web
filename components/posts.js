@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { GetCookie } from "../util/cookie";
 import style from "../styles/Home.module.scss";
+import { useAuth } from "./authProvider";
 
-async function requestPosts(id) {
+async function requestPosts(accessToken) {
     let postData;
 
-    await fetch(`http://localhost:8080/api/users/${id}/posts`, {
-        method: "GET", headers: {"Content-Type": "application/json"},
+    await fetch("http://localhost:8080/api/posts/subscribed", {
+        method: "GET", headers: {"Content-Type": "application/json", "Authorization": `Bearer ${accessToken}`},
     }).then((resp) => resp.json())
         .then((data) => {
             postData = data;
@@ -23,20 +23,17 @@ async function requestPosts(id) {
 //FIXME: need to sort the posts data in the server
 export default function Posts(props) {
     const [posts, setPosts] = useState(<></>);
+    const { getAccessToken } = useAuth();
 
-    useEffect(() => {
-        console.log("fetching posts");
-
-        const id = GetCookie("id");
-        if (id === "") {
-            console.log("id cookie not found, login may be required");
-            return;
-        }
-
-        requestPosts(id).then((postData) => {
-            setPosts(postData.map((post) => {
-                return <p key={post.id}>{post.content}</p>;
-            }));
+    useEffect( () => {
+        getAccessToken().then((accessToken) => {
+            requestPosts(accessToken).then((postData) => {
+                setPosts(postData.map((post) => {
+                    return <p key={post.id}>{post.content}</p>
+                }));
+            });
+        }).catch((err) => {
+            console.log(err);
         });
     }, [props.updateCount]);
 

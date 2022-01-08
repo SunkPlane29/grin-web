@@ -3,6 +3,7 @@ import { GetCookie } from "../util/cookie";
 import style from "../styles/CreatePost.module.scss";
 import ExpandUpIcon from "../public/expand-up.svg";
 import ExpandDownIcon from "../public/expand-down.svg";
+import { useAuth } from "./authProvider";
 
 function CreatePostInput(props) {
     return (
@@ -32,15 +33,10 @@ function HiddenContainer(props) {
     return <div className={props.className}>{props.children}</div>;
 }
 
-function createPostRequest(postContent) {
-    const id = GetCookie("id");
-    if (id === "") {
-        console.log("no id cookie found, login may be required");
-        return;
-    }
-
-    fetch(`http://localhost:8080/api/posts?id=${id}`, {
-        method: "POST", 
+function createPostRequest(postContent, accessToken) {
+    fetch(`http://localhost:8080/api/posts`, {
+        method: "POST",
+        headers: {"Authorization": `Bearer ${accessToken}`},
         body: JSON.stringify({content: postContent}),
     }).then((resp) => {
         if (resp.status == 201) {
@@ -69,8 +65,11 @@ export default function CreatePostForm(props) {
 
     const [postContent, setPostContent] = useState("");
 
+    const { getAccessToken } = useAuth();
+
     const handleSubmit = async () => {
-        createPostRequest(postContent);
+        const accessToken = await getAccessToken();
+        createPostRequest(postContent, accessToken);
         setPostContent("");
         console.log("updating counter");
         props.updateCounter();

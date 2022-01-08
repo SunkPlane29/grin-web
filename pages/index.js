@@ -12,7 +12,6 @@ export default function Home() {
   const [updateCount, setUpdateCount] = useState(0);
 
   useEffect(() => {
-    console.log(updateCount);
   }, [updateCount]);
 
   return (
